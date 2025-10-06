@@ -1,0 +1,77 @@
+/* app/static/css/style.css */
+
+.card-img-custom {
+    height: 200px; /* Le damos una altura fija al contenedor de la imagen */
+    width: 100%;   /* Hacemos que ocupe todo el ancho de la tarjeta */
+    object-fit: cover; /* ¡La magia! La imagen cubre el espacio sin deformarse */
+}
+
+/* app/static/css/style.css */
+.jerarquia-arbol ul {
+    list-style-type: none;
+    padding-left: 20px;
+    position: relative;
+}
+.jerarquia-arbol li {
+    margin: 10px 0;
+    position: relative;
+}
+.jerarquia-arbol li::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -20px;
+    border-left: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    width: 20px;
+    height: 25px;
+}
+.jerarquia-arbol li::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: -20px;
+    border-left: 1px solid #ccc;
+    width: 1px;
+    height: 100%;
+}
+.jerarquia-arbol li:last-child::after {
+    display: none;
+}
+.miembro-info {
+    display: flex;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #dee2e6;
+}
+.miembro-info .nombre {
+    font-weight: bold;
+    margin: 0 10px;
+}
+.miembro-info .rol {
+    font-size: 0.9em;
+    color: #6c757d;
+}
+
+/* Oculta los sub-árboles por defecto */
+.sub-arbol {
+    display: none;
+}
+
+/* Estilos para el ícono de expandir/colapsar */
+.toggle-icon {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.2em;
+    width: 20px; /* Ancho fijo para alinear todo */
+    text-align: center;
+    margin-right: 5px;
+    color: #0d6efd; /* Color azul de Bootstrap */
+}
+
+/* Estilo para el espacio vacío cuando no hay discípulos */
+.toggle-icon.no-discipulos {
+    cursor: default;
+}

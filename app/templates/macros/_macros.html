@@ -1,0 +1,32 @@
+
+{# app/templates/_macros.html #}
+
+{% macro mostrar_miembro(miembro) %}
+<li>
+    <div class="miembro-info">
+        {# ¡NUEVO! Añadimos un ícono (+) solo si el miembro tiene discípulos #}
+        {% if miembro.discipulos.all() %}
+            <span class="toggle-icon">+</span>
+        {% else %}
+            <span class="toggle-icon no-discipulos"></span> {# Un espacio para mantener la alineación #}
+        {% endif %}
+
+        <a href="{{ url_for('miembros.ver_perfil', miembro_id=miembro.id) }}">
+            <img src="{{ url_for('static', filename='img/perfiles/' + miembro.foto_perfil) }}" class="rounded-circle" width="40" height="40">
+            <span class="nombre">{{ miembro.nombre_completo }}</span>
+            <span class="rol">({{ miembro.rol.nombre }})</span>
+        </a>
+    </div>
+
+    {% if miembro.discipulos.all() %}
+        {# ¡NUEVO! Envolvemos la lista de discípulos en un div para poder mostrarla/ocultarla #}
+        <div class="sub-arbol">
+            <ul>
+                {% for discipulo in miembro.discipulos %}
+                    {{ mostrar_miembro(discipulo) }}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</li>
+{% endmacro %}

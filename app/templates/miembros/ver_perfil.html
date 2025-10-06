@@ -1,0 +1,92 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 text-center">
+      <img
+        src="{{ url_for('static', filename='img/perfiles/' + miembro.foto_perfil) }}"
+        class="img-fluid rounded-circle mb-3"
+        alt="Foto de Perfil"
+      />
+      <h3>{{ miembro.nombre_completo }}</h3>
+      <span class="badge bg-primary">{{ miembro.rol.nombre }}</span>
+    </div>
+    <div class="col-md-8">
+      <h1>Perfil de Miembro</h1>
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Detalles</h5>
+          <p><strong>Correo Electrónico:</strong> {{ miembro.email }}</p>
+          <p>
+            <strong>Fecha de Ingreso:</strong> {{
+            miembro.fecha_ingreso.strftime('%d-%m-%Y') }}
+          </p>
+          {% if miembro.descripcion %}
+          <p><strong>Descripción:</strong></p>
+          <p class="text-muted">{{ miembro.descripcion }}</p>
+          {% endif %}
+          {% if current_user.is_authenticated and current_user.is_admin %}
+            <div class="mt-3">
+              <a
+                href="{{ url_for('miembros.editar_miembro', miembro_id=miembro.id) }}"
+                class="btn btn-warning me-2"
+                >Editar Perfil</a
+              >
+        
+              <form
+                action="{{ url_for('miembros.eliminar_miembro', miembro_id=miembro.id) }}"
+                method="POST"
+                class="d-inline"
+                onsubmit="return confirm('¿Estás seguro de que deseas eliminar a este miembro?');"
+              >
+                <input type="submit" value="Eliminar" class="btn btn-danger" />
+              </form>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="card mt-4">
+        <div class="card-body">
+          <h5 class="card-title">Estructura Jerárquica</h5>
+          <p>
+            <strong>Líder:</strong>
+            {% if miembro.lider %}
+            <a
+              href="{{ url_for('miembros.ver_perfil', miembro_id=miembro.lider.id) }}"
+              >{{ miembro.lider.nombre_completo }} - {{ miembro.lider.rol.nombre }}</a
+            >
+            {% else %}
+            <span>No tiene un líder asignado.</span>
+            {% endif %}
+          </p>
+          <h6>
+          <strong>Discípulos:</strong>
+          {# ¡NUEVA LÍNEA! Mostramos el conteo actual #}
+              <span class="badge bg-info">{{ miembro.discipulos.count() }} / 12</span>
+          </h6>
+          {% if miembro.discipulos.all() %}
+          <ul class="list-group">
+            {% for discipulo in miembro.discipulos %}
+            <li class="list-group-item">
+              <a
+                href="{{ url_for('miembros.ver_perfil', miembro_id=discipulo.id) }}"
+                >{{ discipulo.nombre_completo }}</a
+              >
+            </li>
+            {% endfor %}
+          </ul>
+          {% else %}
+          <p>No tiene discípulos asignados.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="mt-4">
+      <a
+        href="{{ url_for('miembros.listar_miembros') }}"
+        class="btn btn-secondary"
+        >Volver a la Lista</a
+      >
+    </div>
+  </div>
+  {% endblock %}
+</div>

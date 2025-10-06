@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{# Importamos nuestra macro para poder usarla #}
+{% from 'macros/_macros.html' import mostrar_miembro %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Jerarquía de Liderazgo</h1>
+    <div class="jerarquia-arbol">
+        <ul>
+            {% for lider in lideres %}
+                {{ mostrar_miembro(lider) }} {# Llamamos a la macro por primera vez para los líderes principales #}
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

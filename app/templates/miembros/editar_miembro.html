@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Miembro{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <h1 class="mb-4">{{title}}</h1>
+        {# Asegúrate de pasar el miembro_id o el objeto miembro completo a la plantilla para que esta URL funcione #}
+        <form method="POST" enctype="multipart/form-data" action="{{ url_for('miembros.editar_miembro', miembro_id=miembro_id) }}" novalidate>
+            {{ form.hidden_tag() }}
+
+            <div class="form-group mb-3">
+                {{ form.foto.label(class="form-label") }}
+                {{ form.foto(class="form-control" + (" is-invalid" if form.foto.errors else "")) }}
+                {% with form_field=form.foto %}
+                    {% include 'errors/_form_errors.html' %}
+                {% endwith %}
+            </div>
+
+            <div class="form-group mb-3">
+                {{ form.nombre_completo.label(class="form-label") }}
+                {{ form.nombre_completo(class="form-control" + (" is-invalid" if form.nombre_completo.errors else "")) }}
+                {% with form_field=form.nombre_completo %}
+                    {% include 'errors/_form_errors.html' %}
+                {% endwith %}
+            </div>
+            
+            <div class="form-group mb-3">
+                {{ form.email.label(class="form-label") }}
+                {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else "")) }}
+                {% with form_field=form.email %}
+                    {% include 'errors/_form_errors.html' %}
+                {% endwith %}
+            </div>
+
+            <div class="form-group mb-3">
+                {{ form.fecha_ingreso.label(class="form-label") }}
+                {{ form.fecha_ingreso(class="form-control" + (" is-invalid" if form.fecha_ingreso.errors else "")) }}
+                {% with form_field=form.fecha_ingreso %}
+                    {% include 'errors/_form_errors.html' %}
+                {% endwith %}
+            </div>
+            
+            <div class="mb-3">
+                {{ form.rol.label(class="form-label") }}
+                {{ form.rol(class="form-select" + (" is-invalid" if form.rol.errors else "")) }}
+                {% with form_field=form.rol %}
+                    {% include 'errors/_form_errors.html' %}
+                {% endwith %}
+            </div>
+
+            <div class="mb-3">
+                {{ form.lider.label(class="form-label") }}
+                {{ form.lider(class="form-select" + (" is-invalid" if form.lider.errors else "")) }}
+                {% with form_field=form.lider %}
+                    {% include 'errors/_form_errors.html' %}
+                {% endwith %}
+            </div>
+
+            <div class="form-group mb-3">
+                {{ form.descripcion.label(class="form-label") }}
+                {{ form.descripcion(class="form-control" + (" is-invalid" if form.descripcion.errors else "")) }}
+                {% with form_field=form.descripcion %}
+                    {% include 'errors/_form_errors.html' %}
+                {% endwith %}
+            </div>
+
+            <div class="form-group">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

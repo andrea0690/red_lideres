@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Lista de Miembros</h1>
+
+    <!-- ¡NUEVA BARRA DE BÚSQUEDA! -->
+    <div class="row mb-3">
+        <div class="col-md-8">
+            <form method="GET" action="{{ url_for('miembros.listar_miembros', rol_id=rol_id) }}">
+                <input type="hidden" name="rol_id" value="{{ rol_id }}">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Buscar por nombre o email..." value="{{ search_term or '' }}">
+                    <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+                </div>
+                
+            </form>
+                    <!-- ¡NUEVO BOTÓN! -->
+        </div>
+        <div class="col-md-2 text-center">
+            <!-- ¡NUEVO BOTÓN! -->
+            <a href="{{ url_for('reports.exportar_miembros_excel') }}" class="btn btn-success">
+                <i class="bi bi-file-earmark-excel"></i> Exportar a Excel
+            </a>
+        </div>
+        <div class="col-md-2 text-center">
+            {% if current_user.is_authenticated and current_user.is_admin %}.
+            <a href="{{ url_for('miembros.nuevo_miembro') }}" class="btn btn-primary mb-3">Añadir Nuevo Miembro</a>
+        </div>
+    </div>
+    
+
+    
+    
+    {% if miembros %}
+    <ul class="list-group mb-3">
+        {% for miembro in miembros %}
+            <!-- Cambiamos miembro.rol por miembro.rol.nombre -->
+            <li class="list-group-item">
+                <a href="{{ url_for('miembros.ver_perfil', miembro_id=miembro.id) }}">{{ miembro.nombre_completo }} - {{ miembro.rol.nombre }}</a>
+            </li>
+        {% else %}
+            <li class="list-group-item">No hay miembros registrados todavía.</li>
+        {% endfor %}
+    </ul>
+    {% elif search_term %}
+
+        {# Si NO hay miembros, PERO sí hay un término de búsqueda, mostramos el mensaje de "no resultados" #}
+        <div class="alert alert-warning text-center mb-3">
+            <p class="mb-2">No se encontraron resultados para "<strong>{{ search_term }}</strong>".</p>
+            <a href="{{ url_for('miembros.listar_miembros') }}" class="btn btn-sm btn-secondary">Limpiar búsqueda y ver todos</a>
+        </div>
+    {% else %}
+
+        {# Si no hay miembros Y TAMPOCO hay búsqueda, significa que la base de datos está vacía #}
+        <div class="alert alert-info text-center">
+            <p>No hay miembros registrados todavía. ¡Añade el primero!</p>
+        </div>
+
+    {% endif %}
+
+
+    {# ¡Aquí incluimos la paginación! #}
+    {% if pagination and pagination.total > 0 %}
+        {% with rol_id=rol_id, search_term=search_term %}
+            {% include 'pagination/pagination.html' %}
+        {% endwith %}
+    {% endif %}
+</div>
+{% endblock %}

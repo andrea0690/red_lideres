@@ -1,0 +1,7 @@
+{% if form_field.errors %}
+    {% for error in form_field.errors %}
+        <div class="invalid-feedback d-block">
+            {{ error }}
+        </div>
+    {% endfor %}
+{% endif %}

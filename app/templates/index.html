@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Página de Inicio - Red de Líderes{% endblock %}
+
+{% block content %}
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+            <!-- Usamos el delimitador { ... } para mostrar la variable 'titulo' -->
+            <h1 class="display-5 fw-bold">{{ titulo }}</h1>
+            <p class="col-md-8 fs-4">Bienvenido a la aplicación de gestión. Aquí podrás visualizar y administrar la red de liderazgo.</p>
+        </div>
+    </div>
+
+    <h2>Miembros Recientes:</h2>
+    <!-- Usamos un bucle 'for' para recorrer la lista 'miembros' -->
+    <ul class="list-group">
+        {% for miembro in miembros %}
+            <li class="list-group-item">{{ miembro }}</li>
+        {% else %}
+            <li class="list-group-item">No hay miembros para mostrar.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+

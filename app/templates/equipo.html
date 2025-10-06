@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Nuestros equipos{% endblock %}
+
+
+{% block content %}
+    <h1>Nuestro Equipo de Liderazgo</h1>
+    <div class="row">
+        {% for persona in equipo %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <!-- Aquí usamos url_for() para generar la ruta a la imagen -->
+                    <img src="{{ url_for('static', filename='img/' + persona.foto) }}" class="card-img-top card-img-custom" alt="Foto de {{ persona.get('nombre') }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ persona.get('nombre') }}</h5>
+                        <p class="card-text">{{ persona.get('rol') }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
