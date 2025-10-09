@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
@@ -14,8 +15,17 @@ def create_app():
     # Creamos la instancia de la aplicación Flask
     app = Flask(__name__)
 
-    app.config.from_pyfile('../config.cfg')
+    # Lógica para cargar configuraciones
+    if os.environ.get('FLASK_ENV') == 'production':
+        # En producción, carga desde variables de entorno
+        app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+        app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
+    else:
+        # En desarrollo, carga desde tu archivo
+        app.config.from_pyfile('../config.cfg')
 
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+        
     db.init_app(app)
     migrate.init_app(app, db) # Inicializa Migrate
     login_manager.init_app(app) # Inicializa LoginManager
